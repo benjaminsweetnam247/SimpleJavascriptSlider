@@ -12,25 +12,37 @@ var width = 720;
 var animationSpeed = 1000;
 var pause = 6000;
 var interval;
-var hover = true;
+var stopOnHover = true;
+var clickForNext = true;
 document.addEventListener('DOMContentLoaded', startSlider());
 function startSlider(){
-    console.log("slider starting!")
    interval = setInterval(function() {
       Velocity(slideContainer, { marginLeft: '-='+width }, animationSpeed, function() {
         currentSlide++;
         if(currentSlide === slides.length) {
           currentSlide = 1;
-          Velocity(slideContainer, { marginLeft: '0'}, 0.0001);
+          Velocity(slideContainer, { marginLeft: '0'}, 0.1);
         }
       });
     }, pause);
   }
-
+  function nextSlide(){
+    Velocity(slideContainer, {marginLeft: '-='+width }, animationSpeed, function() {
+      currentSlide++;
+      if(currentSlide === slides.length) {
+        currentSlide = 1;
+        Velocity(slideContainer, { marginLeft: '0'}, 0.1);
+        clearInterval(interval);
+      }
+    });
+  }
   function stopSlider(){
     clearInterval(interval);
   }
-  if(hover){
+  if(clickForNext){
+  slider.addEventListener("click", nextSlide);
+  }
+  if(stopOnHover){
   slider.addEventListener("mouseover", stopSlider);
   slider.addEventListener("mouseleave", startSlider);
   }
