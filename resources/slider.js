@@ -11,8 +11,12 @@ var currentSlide = 1;
 var width = 720;
 var animationSpeed = 1000;
 var pause = 6000;
-
-    setInterval(function() {
+var interval;
+var hover = true;
+document.addEventListener('DOMContentLoaded', startSlider());
+function startSlider(){
+    console.log("slider starting!")
+   interval = setInterval(function() {
       Velocity(slideContainer, { marginLeft: '-='+width }, animationSpeed, function() {
         currentSlide++;
         if(currentSlide === slides.length) {
@@ -21,6 +25,15 @@ var pause = 6000;
         }
       });
     }, pause);
+  }
+
+  function stopSlider(){
+    clearInterval(interval);
+  }
+  if(hover){
+  slider.addEventListener("mouseover", stopSlider);
+  slider.addEventListener("mouseleave", startSlider);
+  }
     // setInterval
       // animate margin-left
       // if it's last slide, go to position 1 (0px);
